@@ -1,4 +1,4 @@
-# 🏥 Doctor Appointment Booking System (MERN)
+# 🏥 Med Buddy — Doctor Appointment Booking System
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Backend CI](https://img.shields.io/badge/Backend-Node.js-green)]()
@@ -271,8 +271,8 @@ The backend features **secure authentication**, **image upload with Cloudinary**
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Mahmud-Alam/mern-doctor-appointment-booking-system.git
-cd mern-doctor-appointment-booking-system/
+git clone https://github.com/villanious1/-med-buddy.git MedBuddy
+cd MedBuddy
 ```
 
 ### 2. Backend Setup
@@ -444,14 +444,14 @@ setting shown above.
 ---
 
 <a name="author"></a>
-## 👨‍💻 Author
+## 👨‍💻 Maintainer
 
-**Mahmud Alam**
+**Aman** — Med Buddy customization and ongoing maintenance. This project
+builds on an existing MERN doctor appointment booking codebase; the Git history
+retains its original contributors.
 
-- 🌐 [Portfolio Website](https://mahmudalam.com)
-- 📧 Email: [mahmudalam.official@gmail.com](mailto:mahmudalam.official@gmail.com)
-- 💻 [GitHub](https://github.com/Mahmud-Alam)
-- 💼 [LinkedIn](https://www.linkedin.com/in/mahmudalamofficial/)
+- 📧 Email: [culabexp@gmail.com](mailto:culabexp@gmail.com)
+- 💻 [GitHub](https://github.com/villanious1)
 
 ---
 
