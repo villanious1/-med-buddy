@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import mongoose from "mongoose";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
@@ -10,12 +11,22 @@ import userRouter from "./routes/userRoute.js";
 // app config
 const app = express();
 const port = process.env.PORT || 8000;
-connectDB();
-connectCloudinary();
+const allowedOrigins = process.env.CORS_ORIGIN
+  ?.split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: allowedOrigins?.length ? allowedOrigins : true }));
+
+app.get("/health", (req, res) => {
+  const isDatabaseConnected = mongoose.connection.readyState === 1;
+  res.status(isDatabaseConnected ? 200 : 503).json({
+    success: isDatabaseConnected,
+    status: isDatabaseConnected ? "healthy" : "database unavailable",
+  });
+});
 
 // api endpoints
 app.use("/api/admin", adminRouter);
@@ -43,4 +54,15 @@ app.use((req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`Server is running on PORT ${port}`));
+const startServer = async () => {
+  try {
+    await connectDB();
+    await connectCloudinary();
+    app.listen(port, () => console.log(`Server is running on PORT ${port}`));
+  } catch (error) {
+    console.error("Failed to start API:", error);
+    process.exitCode = 1;
+  }
+};
+
+startServer();

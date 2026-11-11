@@ -6,6 +6,62 @@
 [![MongoDB Atlas](https://img.shields.io/badge/Cloud_DB-MongoDB_Atlas-green)]()
 ---
 
+## Local Demo Login Credentials
+
+These are **local college-project demo credentials only**. Do not use them in
+production or on a publicly deployed instance.
+
+### Admin portal
+
+- **Portal:** `http://localhost:5174`
+- **Login ID:** `admin@medbuddy.local`
+- **Password:** `MedBuddyAdmin2026!`
+
+### Doctor portal
+
+- **Portal:** `http://localhost:5174` — select **Doctor Login**
+- **Password for all demo doctors:** `MedBuddyDemo2026!`
+- **Login IDs:**
+  - General physician: `demo.general@medbuddy.local`
+  - Gynecologist: `demo.gynecology@medbuddy.local`
+  - Dermatologist: `demo.dermatology@medbuddy.local`
+  - Pediatricians: `demo.pediatrics@medbuddy.local`
+  - Neurologist: `demo.neurology@medbuddy.local`
+  - Gastroenterologist: `demo.gastroenterology@medbuddy.local`
+
+To initialize or reset the local doctor demo accounts, run `npm run seed:doctors`
+from the `backend` directory.
+
+## Cloud Deployment (Vercel + Render + MongoDB Atlas)
+
+The public website and admin portal are separate Vercel projects. The Express
+API runs on Render and uses MongoDB Atlas. The committed `render.yaml` is a
+Render Blueprint for the API; it requires you to provide the secret values
+below in Render's dashboard.
+
+1. Fork this project or copy it to a GitHub repository you own. Connect that
+   repository to both Vercel and Render.
+2. Create a MongoDB Atlas database and allow connections from your Render
+   service. Keep the Atlas URI private.
+3. In Render, create a Blueprint from `render.yaml` and configure
+   `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and all three Cloudinary
+   values. Render generates `JWT_SECRET`. Use new production credentials;
+   never use the local demo logins above.
+4. Deploy the `frontend` directory as a Vercel project. Set
+   `VITE_BACKEND_URL` to the Render API URL, for example
+   `https://med-buddy-api.onrender.com`.
+5. Deploy `admin-portal` as a second Vercel project and set the same
+   `VITE_BACKEND_URL`.
+6. After Vercel assigns both site URLs, set `CORS_ORIGIN` in Render to the
+   comma-separated public URLs of the frontend and admin portal, then redeploy
+   the API.
+7. Check `https://<your-api-host>/health`; it should return HTTP 200 with
+   `"status":"healthy"`. Your public URLs are the domains assigned by Vercel.
+
+The public URLs cannot be finalized until you connect a repository and deploy
+these services from your hosting accounts. Do not commit `.env` files or place
+production secrets in this README.
+
 ## 📌 Project Overview
 
 The **Doctor Appointment Booking System** is a full-stack web application built using the **MERN Stack**: **MongoDB**, **Express.js**, **React.js**, and **Node.js**. This platform streamlines the process of booking medical appointments online by enabling **Admins**, **Doctors**, and **Users** to manage profiles, schedules, and appointments with ease.
@@ -248,6 +304,33 @@ ADMIN_EMAIL=<email>
 ADMIN_PASSWORD=<pass>
 ```
 
+To populate any missing specialties with clearly labeled demo profiles, run:
+
+```bash
+npm run seed:doctors
+```
+
+The command is safe to rerun and skips specialties that already have a doctor.
+These sample profiles are fictional and for demonstration only.
+
+#### Demo doctor logins
+
+These are local demo accounts for the admin portal's **Doctor Login**. All use
+the same password: `MedBuddyDemo2026!`.
+
+| Specialty | Doctor email (login ID) |
+|---|---|
+| General physician | `demo.general@medbuddy.local` |
+| Gynecologist | `demo.gynecology@medbuddy.local` |
+| Dermatologist | `demo.dermatology@medbuddy.local` |
+| Pediatricians | `demo.pediatrics@medbuddy.local` |
+| Neurologist | `demo.neurology@medbuddy.local` |
+| Gastroenterologist | `demo.gastroenterology@medbuddy.local` |
+
+Rerun `npm run seed:doctors` to create missing demo profiles or reset their
+passwords. These credentials are for local college-project demonstrations only;
+do not use them in a deployed or production system.
+
 Start dev server:
 
 ```bash
@@ -261,10 +344,11 @@ cd ../frontend
 npm install
 ```
 
-Create `.env` at project root:
+The frontend uses `http://localhost:8000` by default. To use a different API,
+create a `.env` file in the `frontend` directory:
 
 ```
-VITE_BACKEND_URL='http://localhost:8000'
+VITE_BACKEND_URL=http://localhost:8000
 ```
 
 Start the client:
@@ -273,7 +357,21 @@ Start the client:
 npm run dev
 ```
 
-### 4. Test Full Flow
+### 4. Admin Portal Setup
+
+In another terminal:
+
+```bash
+cd admin-portal
+npm install
+npm run dev
+```
+
+The admin portal also uses `http://localhost:8000` by default. To use a
+different API, create `admin-portal/.env` with the same `VITE_BACKEND_URL`
+setting shown above.
+
+### 5. Test Full Flow
 
 1. **Admin**: login → add doctors → update availability.
 2. **Doctor**: login → manage appointments.

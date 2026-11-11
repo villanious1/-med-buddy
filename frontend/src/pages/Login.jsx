@@ -47,7 +47,12 @@ const Login = () => {
         }
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred");
+      toast.error(
+        error.response?.data?.message ||
+          (error.code === "ERR_NETWORK"
+            ? "Cannot reach the API. Configure backend/.env with a MongoDB URI and JWT secret, then restart the backend."
+            : "An error occurred")
+      );
     }
   };
 

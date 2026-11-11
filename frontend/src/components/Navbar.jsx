@@ -28,7 +28,14 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 bg-white sticky top-0 z-50">
       <Link to="/">
-        <img className="w-44 cursor-pointer" src={assets.logo} alt="" />
+        <span className="flex flex-col">
+          <span className="text-2xl font-bold tracking-tight text-primary">
+            Med Buddy
+          </span>
+          <span className="text-xs text-gray-500">
+            Get doctors at your home
+          </span>
+        </span>
       </Link>
       <ul className="hidden md:flex items-start gap-5 font-medium uppercase">
         {navLinks.map((nav, index) => (
@@ -100,7 +107,14 @@ const Navbar = () => {
         >
           <div className="flex items-center justify-between px-5 py-6">
             <Link onClick={() => setShowMenu(false)} to="/">
-              <img className="w-36" src={assets.logo} />
+              <span className="flex flex-col">
+                <span className="text-xl font-bold tracking-tight text-primary">
+                  Med Buddy
+                </span>
+                <span className="text-xs text-gray-500">
+                  Get doctors at your home
+                </span>
+              </span>
             </Link>
             <img
               className="w-7 cursor-pointer"
