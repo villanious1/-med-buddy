@@ -34,33 +34,24 @@ from the `backend` directory.
 
 ## Cloud Deployment (Vercel + Render + MongoDB Atlas)
 
-The public website and admin portal are separate Vercel projects. The Express
-API runs on Render and uses MongoDB Atlas. The committed `render.yaml` is a
-Render Blueprint for the API; it requires you to provide the secret values
-below in Render's dashboard.
+The application is deployed as two Vercel sites, an Express API on Render, and
+a MongoDB Atlas database:
 
-1. Fork this project or copy it to a GitHub repository you own. Connect that
-   repository to both Vercel and Render.
-2. Create a MongoDB Atlas database and allow connections from your Render
-   service. Keep the Atlas URI private.
-3. In Render, create a Blueprint from `render.yaml` and configure
-   `MONGODB_URI`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and all three Cloudinary
-   values. Render generates `JWT_SECRET`. Use new production credentials;
-   never use the local demo logins above.
-4. Deploy the `frontend` directory as a Vercel project. Set
-   `VITE_BACKEND_URL` to the Render API URL, for example
-   `https://med-buddy-api.onrender.com`.
-5. Deploy `admin-portal` as a second Vercel project and set the same
-   `VITE_BACKEND_URL`.
-6. After Vercel assigns both site URLs, set `CORS_ORIGIN` in Render to the
-   comma-separated public URLs of the frontend and admin portal, then redeploy
-   the API.
-7. Check `https://<your-api-host>/health`; it should return HTTP 200 with
-   `"status":"healthy"`. Your public URLs are the domains assigned by Vercel.
+- **Public website:** https://med-buddy-web.vercel.app
+- **Admin portal:** https://med-buddy-admin.vercel.app
+- **API health:** https://med-buddy-api.onrender.com/health
 
-The public URLs cannot be finalized until you connect a repository and deploy
-these services from your hosting accounts. Do not commit `.env` files or place
-production secrets in this README.
+The API and Atlas cluster use their free tiers. Render may spin down the API
+after inactivity, causing the first request to take longer. The Vercel projects
+were deployed with the CLI; GitHub auto-deploy is not connected yet. Connect
+the repository in Vercel to enable automatic deployments from pushes.
+
+Production credentials are configured in the hosting dashboard and are
+intentionally not included in this repository. Before accepting appointments,
+configure the Cloudinary environment variables in Render for image uploads and
+add the intended production doctors in Atlas or the admin portal. The demo
+logins above are local-project credentials only. Never commit `.env` files or
+production secrets.
 
 ## 📌 Project Overview
 

@@ -25,3 +25,5 @@ dist-ssr
 
 # My Files
 .env
+.vercel
+.env*
